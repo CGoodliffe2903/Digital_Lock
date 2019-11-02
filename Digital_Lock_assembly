@@ -92,7 +92,7 @@ call	    reset_routine ;calls routine if * was pressed
 clrf	    MODE ;clear MODE ready for next cycle
 movlw	    B'11111111'
 movwf	    DISP
-goto	main_block
+goto	    main_block
 	
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;MODE_SETTING_ROUTINE;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -103,268 +103,269 @@ movlw	    B'00001000'
 movwf	    PORTB ;power up row4
 	
 ;testing for #
-btfsc PORTA,2 ;test if # is pressed update mode
-call test_hash
+btfsc	    PORTA,2 ;test if # is pressed update mode
+call	    test_hash
 	
 ;testing for *
-btfsc PORTA,0 ;test if * is pressed update mode
-call test_star
+btfsc	    PORTA,0 ;test if * is pressed update mode
+call	    test_star
 	
 return
 	
 test_hash
-btfsc PORTA,2 ;test # input
-goto test_hash
-movlw B'00000001' ;if # has been released continue
-movwf MODE
-movlw H'0C' ;set base register
-movwf FSR
+btfsc	    PORTA,2 ;test # input
+goto	    test_hash
+movlw	    B'00000001' ;if # has been released continue
+movwf	    MODE
+movlw	    H'0C' ;set base register
+movwf	    FSR
 return
 	
 test_star
-btfsc PORTA,0 ;test * input
-goto test_star
-movlw B'00000011' ;if * is released then continue
-movwf MODE
-movlw H'0C' ;set base register
-movwf FSR
+btfsc	    PORTA,0 ;test * input
+goto	    test_star
+movlw	    B'00000011' ;if * is released then continue
+movwf	    MODE
+movlw	    H'0C' ;set base register
+movwf	    FSR
 return
+	
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;SCANNING_ROUTINE;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 scanning_routine
 	
-clrf PORTA
+clrf	    PORTA
 ;scanning row 1
-movlw B'00000001'
-movwf PORTB
-btfsc PORTA,0 ; Test 1, skip if clear
-call num1
-btfsc PORTA,1 ; Test 2, skip if clear
-call num2
-btfsc PORTA,2 ; Test 3, skip if clear
-call num3
+movlw	    B'00000001'
+movwf	    PORTB
+btfsc	    PORTA,0 ; Test 1, skip if clear
+call	    num1
+btfsc	    PORTA,1 ; Test 2, skip if clear
+call	    num2
+btfsc	    PORTA,2 ; Test 3, skip if clear
+call	    num3
 	
 ;display current number
-clrf PORTB
-movfw DISP
-movwf PORTB
-movlw B'00001000'
-movwf PORTA
-clrf PORTA
+clrf	    PORTB
+movfw	    DISP
+movwf	    PORTB
+movlw	    B'00001000'
+movwf	    PORTA
+clrf	    PORTA
 	
 ;scanning row 2
-movlw B'00000010'
-movwf PORTB
-btfsc PORTA,0 ; Test 4, skip if clear
-call num4
-btfsc PORTA,1 ; Test 5, skip if clear
-call num5
-btfsc PORTA,2 ; Test 6, skip if clear
-call num6
+movlw	    B'00000010'
+movwf	    PORTB
+btfsc	    PORTA,0 ; Test 4, skip if clear
+call	    num4
+btfsc	    PORTA,1 ; Test 5, skip if clear
+call	    num5
+btfsc	    PORTA,2 ; Test 6, skip if clear
+call	    num6
 	
 ;display current number
-clrf PORTB
-movfw DISP
-movwf PORTB
-movlw B'00001000'
-movwf PORTA
-clrf PORTA
+clrf	    PORTB
+movfw	    DISP
+movwf	    PORTB
+movlw	    B'00001000'
+movwf	    PORTA
+clrf	    PORTA
 	
 ;scanning row 3
-movlw B'00000100'
-movwf PORTB
-btfsc PORTA,0 ; Test 7, skip if clear
-call num7
-btfsc PORTA,1 ; Test 8, skip if clear
-call num8
-btfsc PORTA,2 ; Test 9, skip if clear
-call num9
+movlw	    B'00000100'
+movwf	    PORTB
+btfsc	    PORTA,0 ; Test 7, skip if clear
+call	    num7
+btfsc	    PORTA,1 ; Test 8, skip if clear
+call	    num8
+btfsc	    PORTA,2 ; Test 9, skip if clear
+call	    num9
 	
 ;display current number
-clrf PORTB
-movfw DISP
-movwf PORTB
-movlw B'00001000'
-movwf PORTA
-clrf PORTA
+clrf	    PORTB
+movfw	    DISP
+movwf	    PORTB
+movlw	    B'00001000'
+movwf	    PORTA
+clrf	    PORTA
 	
 ;scanning row 4
-movlw B'00001000'
-movwf PORTB
-btfsc PORTA,0 ; Test *, skip if clear
-call numa
-btfsc PORTA,1 ; Test 0, skip if clear
-call num0
-btfsc PORTA,2 ; Test #, skip if clear
-call numh
+movlw	    B'00001000'
+movwf	    PORTB
+btfsc	    PORTA,0 ; Test *, skip if clear
+call	    numa
+btfsc	    PORTA,1 ; Test 0, skip if clear
+call	    num0
+btfsc	    PORTA,2 ; Test #, skip if clear
+call	    numh
 	
 ;display current number
-clrf PORTB
-movfw DISP
-movwf PORTB
-movlw B'00001000'
-movwf PORTA
-clrf PORTA
+clrf	    PORTB
+movfw	    DISP
+movwf	    PORTB
+movlw	    B'00001000'
+movwf	    PORTA
+clrf	    PORTA
 	
 ;exit scanning routine after 4 inputs
-btfss CODE_ENTERED,0
-goto scanning_routine
-movlw B'11111111'
-movwf DISP
+btfss	    CODE_ENTERED,0
+goto	    scanning_routine
+movlw	    B'11111111'
+movwf	    DISP
 return
 	
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 num1
-movlw B'01011111' ;move code for 1 into display register
-movwf DISP
-btfss PORTA,0
-call debounce_delay
-btfsc PORTA,0
-goto num1
-movlw D'1'
-call storage_routine ;store value as input character
+movlw	    B'01011111' ;move code for 1 into display register
+movwf	    DISP
+btfss	    PORTA,0
+call	    debounce_delay
+btfsc	    PORTA,0
+goto	    num1
+movlw	    D'1'
+call	    storage_routine ;store value as input character
 return
 	
 num2
-movlw B'00100101' ;move code for 2 into display register
-movwf DISP
-btfss PORTA,1
-call debounce_delay
-btfsc PORTA,1
-goto num2
-movlw D'2'
-call storage_routine ;store value as input character
+movlw	    B'00100101' ;move code for 2 into display register
+movwf	    DISP
+btfss	    PORTA,1
+call	    debounce_delay
+btfsc	    PORTA,1
+goto	    num2
+movlw	    D'2'
+call	    storage_routine ;store value as input character
 return
 	
 num3
-movlw B'00001101' ;move code for 3 into display register
-movwf DISP
-btfss PORTA,2
-call debounce_delay
-btfsc PORTA,2
-goto num3
-movlw D'3'
-call storage_routine ;store value as input character
+movlw	    B'00001101' ;move code for 3 into display register
+movwf	    DISP
+btfss	    PORTA,2
+call	    debounce_delay
+btfsc	    PORTA,2
+goto	    num3
+movlw	    D'3'
+call	    storage_routine ;store value as input character
 return
 	
 num4
-movlw B'00011011' ;move code for 4 into display register
-movwf DISP
-btfss PORTA,0
-call debounce_delay
-btfsc PORTA,0
-goto num4
-movlw D'4'
-call storage_routine ;store value as input character
+movlw	    B'00011011' ;move code for 4 into display register
+movwf	    DISP
+btfss	    PORTA,0
+call	    debounce_delay
+btfsc	    PORTA,0
+goto	    num4
+movlw	    D'4'
+call	    storage_routine ;store value as input character
 return
 	
 num5
-movlw B'10001001' ;move code for 5 into display register
-movwf DISP
-btfss PORTA,1
-call debounce_delay
-btfsc PORTA,1
-goto num5
-movlw D'5'
-call storage_routine ;store value as input character
+movlw	    B'10001001' ;move code for 5 into display register
+movwf	    DISP
+btfss	    PORTA,1
+call	    debounce_delay
+btfsc	    PORTA,1
+goto	    num5
+movlw	    D'5'
+call	    storage_routine ;store value as input character
 return
 	
 num6
-movlw B'10000001' ;move code for 6 into display register
-movwf DISP
-btfss PORTA,2
-call debounce_delay
-btfsc PORTA,2
-goto num6
-movlw D'6'
-call storage_routine ;store value as input character
+movlw	    B'10000001' ;move code for 6 into display register
+movwf	    DISP
+btfss	    PORTA,2
+call	    debounce_delay
+btfsc	    PORTA,2
+goto	    num6
+movlw	    D'6'
+call	    storage_routine ;store value as input character
 return
 	
 num7
-movlw B'01011101' ;move code for 7 into display register
-movwf DISP
-btfss PORTA,0
-call debounce_delay
-btfsc PORTA,0
-goto num7
-movlw D'7'
-call storage_routine ;store value as input character
+movlw	    B'01011101' ;move code for 7 into display register
+movwf	    DISP
+btfss	    PORTA,0
+call	    debounce_delay
+btfsc	    PORTA,0
+goto	    num7
+movlw	    D'7'
+call	    storage_routine ;store value as input character
 return
 	
 num8
-movlw B'00000001' ;move code for 8 into display register
-movwf DISP
-btfss PORTA,1
-call debounce_delay
-btfsc PORTA,1
-goto num8
-movlw D'8'
-call storage_routine ;store value as input character
+movlw	    B'00000001' ;move code for 8 into display register
+movwf	    DISP
+btfss	    PORTA,1
+call	    debounce_delay
+btfsc	    PORTA,1
+goto	    num8
+movlw	    D'8'
+call	    storage_routine ;store value as input character
 return
 	
 num9
-movlw B'00001001' ;move code for 9 into display register
-movwf DISP
-btfss PORTA,0
-call debounce_delay
-btfsc PORTA,2
-goto num9
-movlw D'9'
-call storage_routine ;store value as input character
+movlw	    B'00001001' ;move code for 9 into display register
+movwf	    DISP
+btfss	    PORTA,0
+call	    debounce_delay
+btfsc	    PORTA,2
+goto	    num9
+movlw	    D'9'
+call	    storage_routine ;store value as input character
 return
 	
 numa
-movlw B'00010001' ;move code for A into display register
-movwf DISP
-btfsc PORTA,0
-goto numa ;No value assigned
+movlw	    B'00010001' ;move code for A into display register
+movwf	    DISP
+btfsc	    PORTA,0
+goto	    numa ;No value assigned
 return
 	
 num0
-movlw B'01000001' ;move code for 0 into display register
-movwf DISP
-btfss PORTA,0
-call debounce_delay
-btfsc PORTA,1
-goto num0
+movlw	    B'01000001' ;move code for 0 into display register
+movwf	    DISP
+btfss	    PORTA,0
+call	    debounce_delay
+btfsc	    PORTA,1
+goto	    num0
 clrw
-call storage_routine ;store value as input character
+call	    storage_routine ;store value as input character
 return
 	
 numh
-movlw B'00010011' ;move code for H into display register
-movwf DISP
-btfsc PORTA,2
-goto numh ;No value assigned
+movlw	    B'00010011' ;move code for H into display register
+movwf	    DISP
+btfsc	    PORTA,2
+goto	    numh ;No value assigned
 return
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;STORAGE_ROUTINE;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 	
 storage_routine
-movwf INDF
-incf FSR
-movlw B'00000001'
-movwf CODE_ENTERED
-decfsz COUNTER
-clrf CODE_ENTERED
+movwf	    INDF
+incf	    FSR
+movlw	    B'00000001'
+movwf	    CODE_ENTERED
+decfsz	    COUNTER
+clrf	    CODE_ENTERED
 return
 	
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;DISPLAY_ROUTINE;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 	
 display_routine
-clrf PORTA
-movfw DISP ;display contents of DISP on 7-seg
-movwf PORTB
-movlw B'00001000'
-movwf PORTA
-decfsz DELAY_COUNT1
-goto display_routine
-decfsz DELAY_COUNT2
-goto display_routine
-decfsz DELAY_COUNT3
-goto display_routine
-clrf PORTA
+clrf	    PORTA
+movfw	    DISP ;display contents of DISP on 7-seg
+movwf	    PORTB
+movlw	    B'00001000'
+movwf	    PORTA
+decfsz	    DELAY_COUNT1
+goto	    display_routine
+decfsz	    DELAY_COUNT2
+goto	    display_routine
+decfsz	    DELAY_COUNT3
+goto	    display_routine
+clrf	    PORTA
 return
 	
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -372,103 +373,103 @@ return
 	
 unlocking_routine
 	
-clrf DISP
-movfw CHAR1 ;test first input
-subwf INPUT_CHAR1
-btfss STATUS,2
-goto update_timeout
-movfw CHAR2 ;test second input
-subwf INPUT_CHAR2
-btfss STATUS,2
-goto update_timeout
-movfw CHAR3 ;test third input
-subwf INPUT_CHAR3
-btfss STATUS,2
-goto update_timeout
-movfw CHAR4 ;test fourth input
-subwf INPUT_CHAR4
-btfss STATUS,2
-goto update_timeout
-movlw D'3'
-movwf TIME_OUT
+clrf	    DISP
+movfw	    CHAR1 ;test first input
+subwf	    INPUT_CHAR1
+btfss	    STATUS,2
+goto	    update_timeout
+movfw	    CHAR2 ;test second input
+subwf	    INPUT_CHAR2
+btfss	    STATUS,2
+goto	    update_timeout
+movfw	    CHAR3 ;test third input
+subwf	    INPUT_CHAR3
+btfss	    STATUS,2
+goto	    update_timeout
+movfw	    CHAR4 ;test fourth input
+subwf	    INPUT_CHAR4
+btfss	    STATUS,2
+goto	    update_timeout
+movlw	    D'3'
+movwf	    TIME_OUT
 	
 ;if entire code is correct
-call delay_set1
-movlw B'01000011'
-movwf DISP
-call display_routine
-call delay_set1
-movlw B'11111111'
-movwf DISP
-call display_routine
-call delay_set1
-movlw B'01000011'
-movwf DISP
-call display_routine
-call delay_set1
-movlw B'11111111'
-movwf DISP
-call display_routine
-call delay_set1
-movlw B'01000011'
-movwf DISP
-call display_routine
-call delay_set1
-movlw B'11111111'
-movwf DISP
-call display_routine
-call delay_set1
-movlw B'01000011'
-movwf DISP
-call display_routine
-call delay_set1
-movlw B'11111111'
-movwf DISP
-call display_routine
-call delay_set1
-movlw B'01000011'
-movwf DISP
-call display_routine
-call delay_set1
-movlw B'11111111'
-movwf DISP
-call display_routine
-call delay_set1
-movlw B'01000011'
-movwf DISP
-call display_routine
-call delay_set1
-movlw B'11111111'
-movwf DISP
-call display_routine
-call delay_set1
-movlw B'01000011'
-movwf DISP
-call display_routine
-call delay_set1
-movlw B'11111111'
-movwf DISP
-call display_routine
-call delay_set1
-movlw B'01000011'
-movwf DISP
-call display_routine
-call delay_set1
-movlw B'11111111'
-movwf DISP
-call display_routine
-call delay_set1
-movlw B'01000011'
-movwf DISP
-call display_routine
-call delay_set1
-movlw B'11111111'
-movwf DISP
-call display_routine
-call delay_set1
-movlw B'01000011'
-movwf DISP
-call display_routine
+call	    delay_set1
+movlw	    B'01000011'
+movwf	    DISP
+call	    display_routine
+call	    delay_set1
+movlw	    B'11111111'
+movwf	    DISP
+call	    display_routine
+call	    delay_set1
+movlw	    B'01000011'
+movwf	    DISP
+call	    display_routine
+call	    delay_set1
+movlw	    B'11111111'
+movwf	    DISP
+call	    display_routine
+call	    delay_set1
+movlw	    B'01000011'
+movwf	    DISP
+call	    display_routine
+call	    delay_set1
+movlw	    B'11111111'
+movwf	    DISP
+call	    display_routine
+call	    delay_set1
+movlw	    B'01000011'
+movwf	    DISP
+call	    display_routine
+call	    delay_set1
+movlw	    B'11111111'
+movwf	    DISP
+call	    display_routine
+call	    delay_set1
+movlw	    B'01000011'
+movwf	    DISP
+call	    display_routine
+call	    delay_set1
+movlw	    B'11111111'
+movwf	    DISP
+call	    display_routine
+call	    delay_set1
+movlw	    B'01000011'
+movwf	    DISP
+call	    display_routine
+call	    delay_set1
+movlw	    B'11111111'
+movwf	    DISP
+call	    display_routine
+call	    delay_set1
+movlw	    B'01000011'
+movwf	    DISP
+call	    display_routine
+call	    delay_set1
+movlw	    B'11111111'
+movwf	    DISP
+call	    display_routine
+call	    delay_set1
+movlw	    B'01000011'
+movwf	    DISP
+call	    display_routine
+call	    delay_set1
+movlw	    B'11111111'
+movwf	    DISP
+call	    display_routine
+call	    delay_set1
+movlw	    B'01000011'
+movwf	    DISP
+call	    display_routine
+call	    delay_set1
+movlw	    B'11111111'
+movwf	    DISP
+call	    display_routine
+call	    delay_set1
+movlw	    B'01000011'
+movwf	    DISP
+call	    display_routine
 return
 	
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -477,232 +478,232 @@ return
 reset_routine
 	
 ;testing inputs against mastercode
-movlw D'4'
-subwf INPUT_CHAR1
-btfss STATUS,2
+movlw	    D'4'
+subwf	    INPUT_CHAR1
+btfss	    STATUS,2
 return
-movlw D'3'
-subwf INPUT_CHAR2
-btfss STATUS,2
+movlw	    D'3'
+subwf	    INPUT_CHAR2
+btfss	    STATUS,2
+return	
+movlw	    D'2'
+subwf	    INPUT_CHAR3
+btfss	    STATUS,2
 return
-movlw D'2'
-subwf INPUT_CHAR3
-btfss STATUS,2
+movlw	    D'1'
+subwf	    INPUT_CHAR4
+btfss	    STATUS,2
 return
-movlw D'1'
-subwf INPUT_CHAR4
-btfss STATUS,2
-return
-movlw B'00001000'
-movwf PORTB
+movlw	    B'00001000'
+movwf	    PORTB
 	
 ;first input of new code
 awaiting_input1
-btfss PORTA,2
-goto awaiting_input1
-clrf PORTB
-movlw H'0C'
-movwf FSR
-movlw B'00000100' ; assign 4 to counter
-movwf COUNTER
-clrf CODE_ENTERED
-call scanning_routine
-movlw B'00001000'
-movwf PORTB
+btfss	    PORTA,2
+goto	    awaiting_input1
+clrf	    PORTB
+movlw	    H'0C'
+movwf	    FSR
+movlw	    B'00000100' ; assign 4 to counter
+movwf	    COUNTER
+clrf	    CODE_ENTERED
+call	    scanning_routine
+movlw	    B'00001000'
+movwf	    PORTB
 	
 ;second input of new code
 awaiting_input2
-btfss PORTA,2
-goto awaiting_input2
-clrf PORTB
-movlw H'1C'
-movwf FSR
-movlw B'00000100' ; assign 4 to counter
-movwf COUNTER
-clrf CODE_ENTERED
-call scanning_routine
+btfss	    PORTA,2
+goto	    awaiting_input2
+clrf	    PORTB
+movlw	    H'1C'
+movwf	    FSR
+movlw	    B'00000100' ; assign 4 to counter
+movwf	    COUNTER
+clrf	    CODE_ENTERED
+call	    scanning_routine
 	
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 	
 ;testing input1 against input2
-movlw D'1'
-movwf CHECK
-movlw B'10010111'
-movwf DISP
-movfw INPUT_CHAR5
-subwf INPUT_CHAR1,W
-btfss STATUS,2
-clrf CHECK
-movfw INPUT_CHAR6
-subwf INPUT_CHAR2,W
-btfss STATUS,2
-clrf CHECK
-movfw INPUT_CHAR7
-subwf INPUT_CHAR3,W
-btfss STATUS,2
-clrf CHECK
-movfw INPUT_CHAR8
-subwf INPUT_CHAR4,W
-btfss STATUS,2
-clrf CHECK
+movlw	    D'1'
+movwf	    CHECK
+movlw	    B'10010111'
+movwf	    DISP
+movfw	    INPUT_CHAR5
+subwf	    INPUT_CHAR1,W
+btfss	    STATUS,2
+clrf	    CHECK
+movfw	    INPUT_CHAR6
+subwf	    INPUT_CHAR2,W
+btfss	    STATUS,2
+clrf	    CHECK
+movfw	    INPUT_CHAR7
+subwf	    INPUT_CHAR3,W
+btfss	    STATUS,2
+clrf	    CHECK
+movfw	    INPUT_CHAR8
+subwf	    INPUT_CHAR4,W
+btfss	    STATUS,2
+clrf	    CHECK
 	
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 	
 ;display appropriate output 
 ;depending upon if the new password is accepted
-btfsc CHECK,0
-call update_password
-btfsc CHECK,0
-call display_SEt
-btfss CHECK,0
-call display_not
+btfsc	    CHECK,0
+call	    update_password
+btfsc	    CHECK,0
+call	    display_SEt
+btfss	    CHECK,0
+call	    display_not
 return
 	
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;routine to display SEt to the LED display
 display_SEt
-call delay_set
-movlw B'10001001'
-movwf DISP
-call display_routine
-call delay_set
-movlw B'10100001'
-movwf DISP
-call display_routine
-call delay_set
-movlw B'10100011'
-movwf DISP
-call display_routine
+call	    delay_set
+movlw	    B'10001001'
+movwf	    DISP
+call	    display_routine
+call	    delay_set
+movlw	    B'10100001'
+movwf	    DISP
+call	    display_routine
+call	    delay_set
+movlw	    B'10100011'
+movwf	    DISP
+call	    display_routine
 return
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;routine to display not to the LED display
 display_not
-call delay_set
-movlw B'10010111'
-movwf DISP
-call display_routine
-call delay_set
-movlw B'10000111'
-movwf DISP
-call display_routine
-call delay_set
-movlw B'10100011'
-movwf DISP
-call display_routine
+call	    delay_set
+movlw	    B'10010111'
+movwf	    DISP
+call	    display_routine
+call	    delay_set
+movlw	    B'10000111'
+movwf	    DISP
+call	    display_routine
+call	    delay_set
+movlw	    B'10100011'
+movwf	    DISP
+call	    display_routine
 return
 	
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 	
 update_password
-movfw INPUT_CHAR5
-movwf CHAR1
-movfw INPUT_CHAR6
-movwf CHAR2
-movfw INPUT_CHAR7
-movwf CHAR3
-movfw INPUT_CHAR8
-movwf CHAR4
-movlw B'10001001'
-movwf DISP
+movfw	    INPUT_CHAR5
+movwf	    CHAR1
+movfw	    INPUT_CHAR6
+movwf	    CHAR2
+movfw	    INPUT_CHAR7
+movwf	    CHAR3
+movfw	    INPUT_CHAR8
+movwf	    CHAR4
+movlw	    B'10001001'
+movwf	    DISP
 clrw
-call save_password
+call	    save_password
 return
 	
 ;routine to save the password to the EEPROM	
 save_password
-movlw H'00'
-movwf EEADR
-movfw CHAR1
-movwf EEDATA
-bsf STATUS,RP0
-bsf EECON1,WREN
-movlw H'55'
-movwf EECON2
-movlw H'AA'
-movwf EECON2
-bsf EECON1,WR
+movlw	    H'00'
+movwf	    EEADR
+movfw	    CHAR1
+movwf	    EEDATA
+bsf	    STATUS,RP0
+bsf	    EECON1,WREN
+movlw	    H'55'
+movwf	    EECON2
+movlw	    H'AA'
+movwf	    EECON2
+bsf	    EECON1,WR
 	
 write1
-btfsc EECON1,WR
-goto write1
-bcf STATUS,RP0
-movlw H'01'
-movwf EEADR
-movfw CHAR2
-movwf EEDATA
-bsf STATUS,RP0
-bsf EECON1,WREN
-movlw H'55'
-movwf EECON2
-movlw H'AA'
-movwf EECON2
-bsf EECON1,WR
+btfsc	    EECON1,WR
+goto	    write1
+bcf	    STATUS,RP0
+movlw	    H'01'
+movwf	    EEADR
+movfw	    CHAR2
+movwf	    EEDATA
+bsf	    STATUS,RP0
+bsf	    EECON1,WREN
+movlw	    H'55'
+movwf	    EECON2
+movlw	    H'AA'
+movwf	    EECON2
+bsf	    EECON1,WR
 	
 write2
-btfsc EECON1,WR
-goto write2
-bcf STATUS,RP0
-movlw H'02'
-movwf EEADR
-movfw CHAR3
-movwf EEDATA
-bsf STATUS,RP0
-bsf EECON1,WREN
-movlw H'55'
-movwf EECON2
-movlw H'AA'
-movwf EECON2
-bsf EECON1,WR
+btfsc	    EECON1,WR
+goto	    write2
+bcf	    STATUS,RP0
+movlw	    H'02'
+movwf	    EEADR
+movfw	    CHAR3
+movwf	    EEDATA
+bsf	    STATUS,RP0
+bsf	    EECON1,WREN
+movlw	    H'55'
+movwf	    EECON2
+movlw	    H'AA'
+movwf	    EECON2
+bsf	    EECON1,WR
 	
 write3
-btfsc EECON1,WR
-goto write3
-bcf STATUS,RP0
-movlw H'03'
-movwf EEADR
-movfw CHAR4
-movwf EEDATA
-bsf STATUS,RP0
-bsf EECON1,WREN
-movlw H'55'
-movwf EECON2
-movlw H'AA'
-movwf EECON2
-bsf EECON1,WR
+btfsc	    EECON1,WR
+goto	    write3
+bcf	    STATUS,RP0
+movlw	    H'03'
+movwf	    EEADR
+movfw	    CHAR4
+movwf	    EEDATA
+bsf	    STATUS,RP0
+bsf	    EECON1,WREN
+movlw	    H'55'
+movwf	    EECON2
+movlw	    H'AA'
+movwf	    EECON2
+bsf	    EECON1,WR
 	
 write4
-btfsc EECON1,WR
-goto write4
-bcf EECON1,WREN
-bcf STATUS,RP0
+btfsc	    EECON1,WR
+goto	    write4
+bcf	    EECON1,WREN
+bcf	    STATUS,RP0
 return
 	
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;TIME_OUT_ROUTINE;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 	
 update_timeout
-decfsz TIME_OUT
+decfsz	    TIME_OUT
 return
-movlw D'3'
-movwf TIME_OUT
-call timeout_delay
+movlw	    D'3'
+movwf	    TIME_OUT
+call	    timeout_delay
 return
 	
 timeout_delay
-movlw H'FF'
-movwf DELAY_COUNT1
-movlw H'FF'
-movwf DELAY_COUNT2
-movlw H'65'
-movwf DELAY_COUNT3
+movlw	    H'FF'
+movwf	    DELAY_COUNT1
+movlw	    H'FF'
+movwf	    DELAY_COUNT2
+movlw	    H'65'
+movwf	    DELAY_COUNT3
 	
 timeout_delay_loop
-decfsz DELAY_COUNT1
-goto timeout_delay_loop
-decfsz DELAY_COUNT2
-goto timeout_delay_loop
-decfsz DELAY_COUNT3
-goto timeout_delay_loop
+decfsz	    DELAY_COUNT1
+goto	    timeout_delay_loop
+decfsz	    DELAY_COUNT2
+goto	    timeout_delay_loop
+decfsz	    DELAY_COUNT3
+goto	    timeout_delay_loop
 return
 	
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -710,21 +711,21 @@ return
 	
 ;general elay sizes for 
 delay_set
-movlw D'255'
-movwf DELAY_COUNT1
-movlw D'255'
-movwf DELAY_COUNT2
-movlw D'1'
-movwf DELAY_COUNT3
+movlw	    D'255'
+movwf	    DELAY_COUNT1
+movlw	    D'255'
+movwf	    DELAY_COUNT2
+movlw	    D'1'
+movwf	    DELAY_COUNT3
 return
 	
 delay_set1
-movlw D'255'
-movwf DELAY_COUNT1
-movlw D'123'
-movwf DELAY_COUNT2
-movlw D'1'
-movwf DELAY_COUNT3
+movlw	    D'255'
+movwf	    DELAY_COUNT1
+movlw	    D'123'
+movwf	    DELAY_COUNT2
+movlw	    D'1'
+movwf	    DELAY_COUNT3
 return
 	
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -732,16 +733,16 @@ return
 	
 ;incase no capacitors are available run the dobounce delay	
 debounce_delay
-movlw D'255'
-movwf DELAY_COUNT1
-movlw D'50'
-movwf DELAY_COUNT2
+movlw	    D'255'
+movwf	    DELAY_COUNT1
+movlw	    D'50'
+movwf	    DELAY_COUNT2
 	
 debounce_delay_loop
-decfsz DELAY_COUNT1
-goto debounce_delay_loop
-decfsz DELAY_COUNT2
-goto debounce_delay_loop
+decfsz	    DELAY_COUNT1
+goto	    debounce_delay_loop
+decfsz	    DELAY_COUNT2
+goto	    debounce_delay_loop
 return
 	
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
